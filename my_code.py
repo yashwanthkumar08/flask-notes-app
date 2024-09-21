@@ -14,7 +14,8 @@ import os
 # app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 
 #app configuration
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///note.db'
+# app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///note.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///note.db')
 db=SQLAlchemy(app)
 
 # The route() function of the Flask class is a decorator, 
