@@ -28,7 +28,7 @@
     width: 100%;
     min-height: 100vh;
     padding-top: 80px;
-    background: linear-gradient(135deg, grey, white, brown);
+    background: #303030;
     background-size: 200% 200%; 
     animation: gradientAnimation 10s ease infinite; 
     padding-left: 20px;
@@ -146,7 +146,7 @@
 .input-box:hover {
     transform: translateY(-5px); /* Lift card on hover */
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Deeper shadow */
-    background: linear-gradient(135deg, white,brown);
+    /* background: linear-gradient(135deg, white,brown); */
 }
 
 /* Title and Description */
@@ -156,7 +156,7 @@
     position: absolute;
     top:40px;
     font-size: 20px; /* Larger font size */
-    color: #333;
+    color: white;
 }
 
 .note-completed{
@@ -172,7 +172,7 @@
     position: absolute;
     top: 70px;
     font-size: 14px; /* Adjusted font size */
-    color: #555;
+    color: white;
 }
 
 /* Edit and Delete Icons */
@@ -219,11 +219,11 @@
 }
 
 .modal-content {
-    background: linear-gradient(135deg,grey,brown,white,red); 
+    background: #303030;
     background-size: 200% 200%; /* Allows the animation to have movement */
     animation: gradientAnimation 7s ease infinite; /* Infinite animation */
     padding: 20px;
-    border: 3px solid black;
+    border: 3px solid white;
     width: 90%;
     max-width: 500px;
     border-radius: 12px;
@@ -234,17 +234,22 @@
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Deeper shadow */
     transition: opacity 0.3s; /* Smooth transition for modal appearance */
 }
+#modal-title{
+    color: white;
+}
+
 .note-category {
     font-size: 14px;
-    color: black;
+    color: white;
     position: absolute;
     top: 10px;
     left: 10px;
-    font-weight: lighter;
+    outline:3px solid black ;
+    font-weight: bold;
     border: none;
-    border-radius:20px;
-    background: linear-gradient(orange,grey);
-    padding: 3px 3px;
+    border-radius:8px;
+    background: #303030;
+    padding: 3px 20px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     margin-bottom: 8px;
 }
@@ -256,6 +261,9 @@
     border-radius: 6px;
     width: 100%;
     box-sizing: border-box;
+}
+label[for="completed-checkbox"] {
+    color: #303030;
 }
 /* Close Button */
 .close {
@@ -283,6 +291,7 @@
 
 #add-note-form label {
     font-size: 16px;
+    color: white;
     font-weight: 600;
 }
 
@@ -301,9 +310,10 @@
     position: absolute;
     bottom: 1px; /* Position from bottom */
     left: 49%;
+    border: none;
     transform: translateX(-50%); /* Center horizontally */
     font-weight: bold;
-    color: #555;
+    color: white;
     padding: 5px 10px;
 
 }
@@ -349,18 +359,23 @@
 
 #search-input {
     width: 100%; /* Full width inside the container */
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    max-width: 100%;
-    min-width: 150px;
-    position: absolute;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-size: 16px;
-    font-weight: bold;
-    transition: width 0.3s ease;
+    padding: 12px 15px; /* Increased padding for comfort */
+    border-radius: 20px; /* Rounded corners */
+    border: 1px solid #ccc; /* Light border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    font-size: 16px; /* Font size */
+    font-weight: bold; /* Bold text */
+    transition: all 0.3s ease;
 }
-
+#search-input:focus {
+    border-color: #3498db; /* Change border color on focus */
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* Highlight effect */
+    outline: none; /* Remove outline */
+}
+#search-input::placeholder {
+    color: #999; /* Placeholder text color */
+    opacity: 1; /* Ensure visibility */
+}
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .container {
@@ -459,4 +474,3 @@
     background: linear-gradient(135deg, grey, brown); 
     transform: scale(1.05);
 }
-
