@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const searchInput = document.getElementById("search-input");
     const showCompletedCheckbox = document.getElementById("show-completed");
     const notesContainer = document.querySelector(".notes");
-
+    const colors = ['#d64f6f', '#be6a0a', '#4d61c0', '#36b4a6', '#cc5dbc', '#d49d29'];
     let editingNoteId = null; // Variable to track the note being edited
 
     // function generateUniqueId() {
@@ -260,21 +260,24 @@ document.addEventListener("DOMContentLoaded", function() {
         const noteDescription = descriptionInput.value.replace(/\n/g, '<br>');
         const noteCategory = categoryInput.value;
         const completed = document.querySelector('#completed-checkbox')?.checked || false;
-    
+        const noteColor = colors[Math.floor(Math.random() * colors.length)];
         if (editingNoteId) {
             // Update existing note
-            fetch(`/update/${editingNoteId}`, {
+            fetch(`/update_note/${editingNoteId}`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Content-Type': 'application/json',
                 },
-                body: new URLSearchParams({
+                body: JSON.stringify({
                     'title': noteTitle,
                     'description': noteDescription,
                     'category': noteCategory,
-                    'completed': completed
+                    'completed': completed,
+                    'color': noteColor
+                    
                 })
             })
+            
             .then(response => {
                 if (response.ok) {
                     return response.json(); // Parse the JSON response
@@ -286,11 +289,15 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(updatedNote => {
                 // Update the note in the DOM without refreshing
                 const inputBox = notesContainer.querySelector(`[data-id="${updatedNote.id}"]`);
-                inputBox.querySelector('.note-title').innerText = updatedNote.title;
-                inputBox.querySelector('.note-description').innerHTML = updatedNote.description;
-                inputBox.querySelector('.note-category').innerText = updatedNote.category;
-                inputBox.querySelector('.note-completed').checked = updatedNote.completed;
-                
+                if (inputBox) {  // Check if inputBox is found
+                    inputBox.querySelector('.note-title').innerText = updatedNote.title;
+                    inputBox.querySelector('.note-description').innerHTML = updatedNote.description;
+                    inputBox.querySelector('.note-category').innerText = updatedNote.category;
+                    inputBox.querySelector('.note-completed').checked = updatedNote.completed;
+                    inputBox.style.backgroundColor = updatedNote.color;
+                } else {
+                    console.error('Note not found in the DOM');
+                }
 
                 // Reset editingNoteId and close the modal
                 
@@ -300,16 +307,17 @@ document.addEventListener("DOMContentLoaded", function() {
             .catch(error => console.error('Error:', error));
         } else {
             // Add a new note
-            fetch('/submit', {
+            fetch('/add_note', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Content-Type': 'application/json',
                 },
-                body: new URLSearchParams({
-                    'title': noteTitle,
-                    'description': noteDescription,
-                    'category': noteCategory,
-                    'completed': false // or true, depending on your need
+                body:JSON.stringify({
+                    title: noteTitle,
+                    description: noteDescription,
+                    category: noteCategory,
+                    completed: false,
+                    color: noteColor  // or true, depending on your need
                 })
             })
             .then(response => {
@@ -327,7 +335,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     description: noteDescription,
                     timestamp: newNote.timestamp, // or use newNote.timestamp if you get it from the server
                     category: noteCategory,
-                    completed: false
+                    completed: false,
+                    color: noteColor
+                    
                 };
                 createNoteElement(note); // Call your function to create a new note element
                 noteFormModal.style.display = "none"; // Close the modal
@@ -339,7 +349,11 @@ document.addEventListener("DOMContentLoaded", function() {
         editingNoteId = null;
     });
     
-
+    function getRandomColor() {
+        const colors = ['#d64f6f', '#be6a0a', '#4d61c0', '#36b4a6', '#cc5dbc', '#d49d29'];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+    
     // Search functionality
     searchInput.addEventListener("keyup", () => {
         const searchTerm = searchInput.value.toLowerCase();
@@ -391,7 +405,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     function deleteNoteById(id, inputBox) {
-        fetch(`/delete/${id}`, { method: 'DELETE' })
+        fetch(`/delete_note/${id}`, { method: 'DELETE' })
             .then(response => {
                 if (response.ok) {
                     inputBox.remove(); // Remove the note from the DOM
@@ -428,18 +442,20 @@ document.addEventListener("DOMContentLoaded", function() {
         const noteElement = document.createElement('div');
         noteElement.className = 'input-box';
         noteElement.setAttribute('data-id', note.id);
+        noteElement.style.backgroundColor = note.color;  // Apply the note's color
         
         noteElement.innerHTML = `
-        <div class="note-title">${note.name}</div>
-        <p class="note-description">${note.description}</p>
-        <p class="note-category">${note.category}</p>
-        <p class="note-date">${note.timestamp}</p>
-        <input type="checkbox" class="note-completed" ${note.completed ? 'checked' : ''} id="completed-checkbox-${note.id}">
-        <img src="/static/images/delete_button.png" alt="delete icon" class="delete">
-        <img src="/static/images/edit_button.png" alt="edit icon" class="edit">
-    `;
+            <div class="note-title">${note.name}</div>
+            <p class="note-description">${note.description}</p>
+            <p class="note-category">${note.category}</p>
+            <p class="note-date">${note.timestamp}</p>
+            <input type="checkbox" class="note-completed" ${note.completed ? 'checked' : ''} id="completed-checkbox-${note.id}">
+            <img src="/static/images/delete_button.png" alt="delete icon" class="delete">
+            <img src="/static/images/edit_button.png" alt="edit icon" class="edit">
+        `;
         
         notesContainer.appendChild(noteElement);
     }
+    
     
 });
