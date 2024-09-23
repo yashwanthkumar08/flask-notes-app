@@ -36,7 +36,9 @@
     overflow: hidden;
     transition: background 0.8s;
 }
-
+#filter-controls h2{
+    color: red;
+}
 /* Keyframes for Background Animation */
 @keyframes gradientAnimation {
     0% {
@@ -96,12 +98,10 @@
 .header button:active {
     transform: scale(0.70);
 }
-/* 
-#filter-controls {
-    position: relative;
-    margin-top: 100px;
-} */
-#show-completed {
+
+#filter-controls 
+#show-completed 
+{
     position: absolute;
     top: 100px; /* Adjusted for alignment */
     right: 30px; /* Adjusted for alignment */
@@ -112,7 +112,13 @@
     padding: 200px;
     z-index: 1; /* Bring the checkbox above any overlapping elements */
 }
-
+#filter-controls h3{
+    position: absolute; 
+    top: 95px;
+    color: white;
+    z-index: 2;
+    right: 60px
+}
 .notes {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive columns */
@@ -131,7 +137,7 @@
     justify-content: space-between;
     background-color: #fff;
     padding: 20px;
-    border-radius: 12px; /* More rounded corners */
+    border-radius: 12px; 
     border: 3px solid black; /* Light border for better separation */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); 
     position: relative;
@@ -159,6 +165,7 @@
     color: white;
 }
 
+
 .note-completed{
     position: absolute;
     top: 15px;
@@ -176,32 +183,40 @@
 }
 
 /* Edit and Delete Icons */
-.delete,
-.edit {
+.delete-button,
+.edit-button {
     width: 20px;
     cursor: pointer;
     top: 10px;
+    border-radius: 6px;
+    border: none;
+    padding: 3px 3px;
     position: absolute;
-    transition: color 0.3s; /* Smooth transition for icon colors */
+    transition: color 0.1s; /* Smooth transition for icon colors */
 }
 
-
-.delete {
+.edit-button .edit{
+    width: 15px;
+}
+.delete-button .delete{
+    width: 15px;
+}
+.delete-button {
     right: 10px;
 }
-.delete:hover{
+.delete-button:hover{
     transform: translateY(-5px); 
     
 }
-.edit:hover{
+.edit-button:hover{
     transform: translateY(-5px); 
 }
-.edit {
+.edit-button {
     right: 40px;
 }
 
-.delete:hover,
-.edit:hover {
+.delete-button:hover,
+.edit-button:hover {
     color: #333; /* Change color on hover */
 }
 
