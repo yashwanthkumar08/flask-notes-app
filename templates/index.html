@@ -17,7 +17,8 @@
     </header>
     
     <div id="filter-controls">
-        <label>
+        <h3>Show Completed</h3>
+        <label for="show-completed">
             <input type="checkbox" id="show-completed" name="completed"> Show Completed
         </label>
     </div>
@@ -40,8 +41,13 @@
                         {% if note.completed %}checked{% endif %} 
                         id="completed-checkbox-{{ note.id }}">
                     <label for="completed-checkbox-{{ note.id }}">C</label> 
-                    <img src="{{ url_for('static', filename='images/delete_button.png') }}" alt="Delete" class="delete">
-                    <img src="{{ url_for('static', filename='images/edit_button.png') }}" alt="Edit" class="edit">
+                    <button class="delete-button">
+                        <img src="{{ url_for('static', filename='images/delete_button.png') }}" alt="Delete" class="delete">
+                    </button>
+                    <button class="edit-button">
+                        <img src="{{ url_for('static', filename='images/edit_button.png') }}" alt="Edit" class="edit">
+                    </button>
+                    
                 </div>
             {% endfor %}
         </div>
