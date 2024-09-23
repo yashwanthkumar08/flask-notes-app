@@ -255,7 +255,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Submit new note or update existing note
     addNoteForm.addEventListener('submit', (e) => {
         e.preventDefault(); // Prevent default form submission
-    
+        //we are storing the user inputs into different variables
         const noteTitle = titleInput.value;
         const noteDescription = descriptionInput.value.replace(/\n/g, '<br>');
         const noteCategory = categoryInput.value;
@@ -263,12 +263,12 @@ document.addEventListener("DOMContentLoaded", function() {
         const noteColor = colors[Math.floor(Math.random() * colors.length)];
         if (editingNoteId) {
             // Update existing note
-            fetch(`/update_note/${editingNoteId}`, {
+            fetch(`/update_note/${editingNoteId}`, { //here we are sending the data obtained as a json file to the server
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
+                body: JSON.stringify({  //converting the data into json
                     'title': noteTitle,
                     'description': noteDescription,
                     'category': noteCategory,
@@ -278,7 +278,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 })
             })
             
-            .then(response => {
+            .then(response => {   //after sending the json data,the server creates a new note or edits ,sends a response object
                 if (response.ok) {
                     return response.json(); // Parse the JSON response
                 } else {
@@ -286,7 +286,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     alert('Failed to update the note.'); // Notify the user
                 }
             })
-            .then(updatedNote => {
+            .then(updatedNote => {  //now we have to send the obtained response back to the dom to dynamically change the screen
                 // Update the note in the DOM without refreshing
                 const inputBox = notesContainer.querySelector(`[data-id="${updatedNote.id}"]`);
                 if (inputBox) {  // Check if inputBox is found
@@ -355,15 +355,15 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     // Search functionality
-    searchInput.addEventListener("keyup", () => {
+    searchInput.addEventListener("keyup", () => { //keyup is an event which is triggered when user stops typing on keyboard
         const searchTerm = searchInput.value.toLowerCase();
         const notes = document.querySelectorAll(".input-box");
 
         notes.forEach(note => {
-            const title = note.querySelector(".note-title").innerText.toLowerCase();
-            const description = note.querySelector(".note-description").innerText.toLowerCase();
+            const title = note.querySelector(".note-title").innerText.toLowerCase();   
+            const description = note.querySelector(".note-description").innerText.toLowerCase();  
 
-            if (title.includes(searchTerm) || description.includes(searchTerm)) {
+            if (title.includes(searchTerm) || description.includes(searchTerm)) {   
                 note.style.display = "block"; // Show matching note
             } else {
                 note.style.display = "none"; // Hide non-matching note
@@ -380,7 +380,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function filterNotes(showCompleted) {
         const notes = document.querySelectorAll(".input-box");
         notes.forEach(note => {
-            const isCompleted = note.querySelector(".note-completed").checked;
+            const isCompleted = note.querySelector(".note-completed").checked;  
             if (showCompleted && !isCompleted) {
                 note.style.display = "none"; // Hide if not completed
             } else {
@@ -396,9 +396,9 @@ document.addEventListener("DOMContentLoaded", function() {
         if (!inputBox) return;
         const noteId = inputBox.getAttribute('data-id');
 
-        if (e.target.classList.contains('delete')) {
+        if (e.target.closest('.delete-button') || e.target.classList.contains('delete')) {
             deleteNoteById(noteId, inputBox);
-        } else if (e.target.classList.contains('edit')) {
+        } else if (e.target.closest('.edit-button') || e.target.classList.contains('edit')) {
             console.log('Editing note ID:', noteId);
             editNoteById(noteId, inputBox);
         }
@@ -450,8 +450,12 @@ document.addEventListener("DOMContentLoaded", function() {
             <p class="note-category">${note.category}</p>
             <p class="note-date">${note.timestamp}</p>
             <input type="checkbox" class="note-completed" ${note.completed ? 'checked' : ''} id="completed-checkbox-${note.id}">
-            <img src="/static/images/delete_button.png" alt="delete icon" class="delete">
-            <img src="/static/images/edit_button.png" alt="edit icon" class="edit">
+            <button class="delete-button">
+                <img src="/static/images/delete_button.png" alt="delete icon" class="delete">
+            </button>
+            <button class="edit-button">
+                <img src="/static/images/edit_button.png" alt="edit icon" class="edit">
+            </button>
         `;
         
         notesContainer.appendChild(noteElement);
