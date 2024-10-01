@@ -32,7 +32,7 @@
                     <img src="{{ url_for('static', filename='images/logo.png') }}" alt="">
                 </div>
                 <ul class="categories">
-                <li data-filter="all"><img src="{{url_for('static',filename='images/all.png')}}" alt="">All</li>
+                <li data-filter="all"><img src="{{url_for('static',filename='images/all.png')}}" alt="">ALL</li>
                 <li data-filter="home"><img src="{{url_for('static',filename='images/home.png')}}" alt="">Home</li>
                 <li data-filter="personal"><img src="{{url_for('static',filename='images/personal.png')}}" alt="">Personal</li>
                 <li data-filter="business"><img src="{{url_for('static',filename='images/suitcase-outline.png')}}">Business</li>
@@ -66,9 +66,11 @@
             <div class="modify-buttons">
                 <button class="edit-button">
                     <img src="{{ url_for('static', filename='images/edit_button.png') }}" alt="Edit" class="edit">
+                    <div class="edit-name">Edit</div>
                 </button>
                 <button class="delete-button">
                     <img src="{{ url_for('static', filename='images/delete_button.png') }}" alt="Delete" class="delete">
+                    <div class="delete-name">Delete</div>
                 </button>
             </div>
         </div>
@@ -84,8 +86,8 @@
                     + Create Task 
                 </button>
                 <div id="filter-controls">
+                    <div class="checkbox-name">Completed</div>
                     <label for="show-completed">
-                        
                         <input type="checkbox" id="show-completed" name="completed">
                     </label>
                 </div>
