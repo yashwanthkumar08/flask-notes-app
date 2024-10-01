@@ -8,49 +8,88 @@
 </head>
 <body>
     <header class="header">
-        <button type="button" id="add-button">
-            <img src="{{ url_for('static', filename='images/add_button.png') }}" alt="Add">
-        </button>
-        <a href="{{url_for('logout')}}">Logout</a>
-        <div class="search-container">
-            <input type="text" id="search-input" placeholder="Search">
+        <div class="combo">
+            <div class="welcome-message">
+                <h2><label class="welcome">Welcome Back, </label> {{username}}</h2>
+               </div>
+                <div class="search-container">
+                    <div class="search-content">
+                        <img src="{{url_for('static',filename='images/search-interface-symbol.png')}}" alt="" class="search-icon">
+                        <input type="text" id="search-input" placeholder="Search">
+                    </div>
+                   
+                </div>
         </div>
+       
     </header>
     
-    <div id="filter-controls">
-        <h3>Show Completed</h3>
-        <label for="show-completed">
-            <input type="checkbox" id="show-completed" name="completed"> Show Completed
-        </label>
-    </div>
-    
+   
     <div class="container">
+        <button type="button" id="sidebar-toggle"><p>&#9776;</p></button>
+        <div class="sidebar">
+            <div class="content">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="">
+                </div>
+                <ul class="categories">
+                <li data-filter="all"><img src="{{url_for('static',filename='images/all.png')}}" alt="">All</li>
+                <li data-filter="home"><img src="{{url_for('static',filename='images/home.png')}}" alt="">Home</li>
+                <li data-filter="personal"><img src="{{url_for('static',filename='images/personal.png')}}" alt="">Personal</li>
+                <li data-filter="business"><img src="{{url_for('static',filename='images/suitcase-outline.png')}}">Business</li>
+            </ul>
+            </div>
+            
+            <div class="logout">
+                <a href="{{url_for('logout')}} " class="logout-button">Logout</a>
+            </div>
+
+        </div>
+        
         <div class="notes">
             <!-- Loop through the notes passed from the backend -->
             {% for note in notes %}
-                <div class="input-box" 
-                     data-id="{{ note.id }}" 
-                     data-timestamp="{{ note.timestamp }}" 
-                     style="background-color: {{ note.color }}">
-                    <div class="note-title">{{ note.title }}</div>
-                    <p class="note-description">{{ note.description }}</p>
-                    <p class="note-category">{{ note.category }}</p>
-                    <p class="note-date">{{ note.timestamp }}</p>
-                    
-                    <!-- <input type="checkbox" class="note-completed" {% if note.completed %}checked{% endif %} id="completed-checkbox"> -->
-                    <input type="checkbox" class="note-completed" 
-                        {% if note.completed %}checked{% endif %} 
-                        id="completed-checkbox-{{ note.id }}">
-                    <label for="completed-checkbox-{{ note.id }}">C</label> 
-                    <button class="delete-button">
-                        <img src="{{ url_for('static', filename='images/delete_button.png') }}" alt="Delete" class="delete">
-                    </button>
-                    <button class="edit-button">
-                        <img src="{{ url_for('static', filename='images/edit_button.png') }}" alt="Edit" class="edit">
-                    </button>
-                    
+    <div class="input-box" 
+         data-id="{{ note.id }}" 
+         data-timestamp="{{ note.timestamp }}" 
+         style="background-color: {{ note.color }}">
+        <div class="note-title">{{ note.title }}</div>
+        <p class="note-description">{{ note.description }}</p>
+        <p class="note-category">{{ note.category }}</p>
+        <p class="note-date">{{ note.timestamp }}</p>
+        
+        <div class="checkbox-icons-container">
+            <input type="checkbox" class="note-completed" 
+                {% if note.completed %}checked{% endif %} 
+                id="completed-checkbox-{{ note.id }}">
+            <label for="completed-checkbox-{{ note.id }}">C</label> 
+
+            <div class="modify-buttons">
+                <button class="edit-button">
+                    <img src="{{ url_for('static', filename='images/edit_button.png') }}" alt="Edit" class="edit">
+                </button>
+                <button class="delete-button">
+                    <img src="{{ url_for('static', filename='images/delete_button.png') }}" alt="Delete" class="delete">
+                </button>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+        </div>
+        
+        <!-- Right Sidebar for 'Add New' Button -->
+        <div class="right-sidebar">
+            <div class="controls-container">
+                <button type="button" id="add-button">
+                    + Create Task 
+                </button>
+                <div id="filter-controls">
+                    <label for="show-completed">
+                        
+                        <input type="checkbox" id="show-completed" name="completed">
+                    </label>
                 </div>
-            {% endfor %}
+            
         </div>
     </div>
 
