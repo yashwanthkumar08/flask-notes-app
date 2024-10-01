@@ -6,12 +6,12 @@ from flask_migrate import Migrate
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
-
+import re
 
 app.secret_key = 'supersecretkey'
 
 # App configuration
-db_path = os.path.join(os.path.dirname(__file__), 'my_notes.db')
+db_path = os.path.join(os.path.dirname(__file__), 'latest_notes.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -24,7 +24,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
     notes = db.relationship('Note', backref='user', lazy=True)
-
+    email=db.Column(db.String(30),unique=True,nullable=False)
 # Note model
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -36,6 +36,9 @@ class Note(db.Model):
     color = db.Column(db.String(7))  # Store color for the note
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
+def is_valid_email(email):
+    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    return re.match(pattern, email) is not None
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -46,36 +49,58 @@ def load_user(user_id):
 def signup():
     if request.method == 'POST':
         username = request.form['username']
+        email=request.form['email']
         password = request.form['password']
         hashed_password = generate_password_hash(password)
-        user = User(username=username, password=hashed_password)
 
-        try:
-            db.session.add(user)
-            db.session.commit()
-            flash('Signup successful! Please log in.')
-            return redirect(url_for('login'))
-        except:
-            flash('Username already exists. Try another one.')
+        if not is_valid_email(email):
+            flash('Invalid email format. Please enter a valid email.','invalid-email')
             return redirect(url_for('signup'))
+        
+        # existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
+        existing_user = User.query.filter((User.email == email)).first()
 
+        if existing_user:
+            # if existing_user.username == username:
+            #      flash('Username already exists. Please Login.','username-exists')
+            if existing_user.email == email:
+                flash('Email already registered. Please Login','email-exists')
+            return redirect(url_for('signup'))
+        
+        user = User(username=username, password=hashed_password,email=email)
+        db.session.add(user)
+        db.session.commit()
+        flash('Signup successful! Please log in.','registered-user')
+        return redirect(url_for('login'))
+       
     return render_template('signup.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
-        user = User.query.filter_by(username=username).first()
+        
+        # Validate email format
+        if not is_valid_email(email):
+            flash('Invalid email address.','invalid-email')
+            return redirect(url_for('login'))
 
-        if user and check_password_hash(user.password, password):
-            login_user(user)
-            return redirect(url_for('homescreen'))
-        else:
-            flash('Invalid credentials. Please try again.')
+        user = User.query.filter_by(email=email).first()
+
+        if user:  # Email exists
+            if check_password_hash(user.password, password):  # Password is correct
+                login_user(user)
+                return redirect(url_for('homescreen'))
+            else:  # Password is incorrect
+                flash('Incorrect password.','user-exists-pw-incorrect')
+                return redirect(url_for('login'))
+        else:  # Email does not exist
+            flash('Email not found','user-doesnt-exist')
             return redirect(url_for('login'))
 
     return render_template('login.html')
+
 
 
 @app.route('/logout')
@@ -90,7 +115,7 @@ def logout():
 @login_required
 def homescreen():
     user_notes = Note.query.filter_by(user_id=current_user.id).all()
-    return render_template('index.html', notes=user_notes if user_notes else [])
+    return render_template('index.html', notes=user_notes if user_notes else [],username=current_user.username)
 
 # Handle note submission (adding a new note)
 @app.route('/add_note', methods=['POST'])
