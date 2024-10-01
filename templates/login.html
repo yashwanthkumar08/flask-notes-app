@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+  <script>
+    // JavaScript function to redirect after 1 second if there are flash messages
+    function redirectToSignup() {
+      setTimeout(function() {
+        window.location.href = "{{ url_for('signup') }}"; // Redirect to the signup page
+      }, 1000); // 1 second delay
+    }
+    function togglePasswordVisibility() {
+  const passwordInput = document.getElementById('password-id');
+  const toggleButton = document.getElementById('toggle-password');
+  
+  // Toggle the input type
+  const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+  passwordInput.setAttribute('type', type);
+
+  // Change the eye icon based on visibility
+  toggleButton.querySelector('img').src = type === 'password' 
+      ? "{{ url_for('static', filename='images/icons8-hide-50.png') }}" // Default eye icon for password hidden
+      : "{{ url_for('static', filename='images/icons8-eye-50.png') }}"; // Alternate eye icon for password visible
+  }
+
+    // Execute redirect if there are messages
+    window.onload = function() {
+      const flashMessages = document.querySelectorAll('.flash-message');
+
+      flashMessages.forEach(message => {
+        const messageType = message.dataset.type;
+
+        if (messageType === 'user-doesnt-exist') {
+          redirectToSignup();
+        }
+
+        // Add red border based on the type of message
+        if (messageType === 'invalid-email') {
+          const emailField = document.getElementById('email-id');
+          emailField.style.border = '1px solid red';
+        } else if (messageType === 'user-exists-pw-incorrect') {
+          const passField = document.getElementById('password-id');
+          passField.style.border = '1px solid red';
+        }
+      });
+      document.getElementById('toggle-password').addEventListener('click', togglePasswordVisibility);
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="right">
+      <h2>Login </h2>
+      <h4>Hi,Welcome Back 👍</h4>
+      <form method="POST">
+        
+        <div class="input">
+          <h3 class="email">Email</h3>
+          <input type="text" name="email" placeholder="eg:johndoe@gmail.com" required id="email-id"><br><br>
+           {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        {% if category in ['invalid-email', 'user-doesnt-exist'] %} 
+                            <div class="flash-message {{ category }}" data-type="{{ category }}">
+                                <p>{{ message }}</p>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+          {% endwith %}
+          <h3 class="password">Password</h3>
+          <div class="password-container">
+              <input type="password" name="password" placeholder="Enter your password" required id="password-id">
+              <button type="button" id="toggle-password" class="toggle-password">
+                <img src="{{ url_for('static', filename='images/icons8-hide-50.png') }}" alt="Toggle Password Visibility">
+              </button>
+          </div>
+          
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        {% if category in ['user-exists-pw-incorrect'] %}
+                            <div class="flash-message {{ category }}" data-type="{{ category }}">
+                                <p>{{ message }}</p>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+              </div>
+            {% endif %}
+          {% endwith %}
+          
+        </div>
+        <div class="button-container">
+          <button type="submit">Log In</button>
+        </div>
+      </form>
+      <div class="signup">
+        <p>Not registered yet?
+          <a href="{{ url_for('signup') }}"  class="signup-button create-account-link">Create an account ↗</a>
+        </p>
+      </div>
+      
+
+      
+          
+    </div>
+   
+  </div>
+</body>
+</html>

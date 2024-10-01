@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
+    <script>
+        // JavaScript function to redirect after 1 second if there are flash messages
+        function redirectToLogin() {
+            setTimeout(function() {
+                window.location.href = "{{ url_for('login') }}";  // Redirect to the login page
+            }, 2000);  // 1 second delay
+        }
+        function togglePasswordVisibility() {
+  const passwordInput = document.getElementById('password-id');
+  const toggleButton = document.getElementById('toggle-password');
+  
+  // Toggle the input type
+  const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+  passwordInput.setAttribute('type', type);
+
+  // Change the eye icon based on visibility
+  toggleButton.querySelector('img').src = type === 'password' 
+      ? "{{ url_for('static', filename='images/icons8-hide-50.png') }}" // Default eye icon for password hidden
+      : "{{ url_for('static', filename='images/icons8-eye-50.png') }}"; // Alternate eye icon for password visible
+  }
+        // Execute redirect if there are messages
+        window.onload = function() {
+            const flashMessages = document.querySelector('.flash-messages');
+            if (flashMessages) {
+                const messageTypes = flashMessages.children[0].dataset.type;
+                // if(messageTypes=='username-exists'||messageTypes=='email-exists'||messageTypes=='registered-user')
+                if(messageTypes=='email-exists'||messageTypes=='registered-user'){
+                    redirectToLogin();    
+                }
+                if(messageTypes=='invalid-email'){
+                    const emailField = document.getElementById('email-id');
+                    emailField.style.border = '1px solid red';
+                }
+                
+            }
+            document.getElementById('toggle-password').addEventListener('click', togglePasswordVisibility);
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="right">
+            <h2>Signup</h2>
+            <h4>Please Register </h4>
+            <form method="POST">
+                <div class="input">
+                    <h3 class="username">Username</h3>
+                    <input type="text" name="username" placeholder="Username" required id="user-name"><br><br>
+                    <h3 class="email">Email</h3>
+                    <input type="text" name="email" placeholder="Email" required id="email-id"><br><br>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            <div class="flash-messages" id="flash-message-color">
+                                {% for category, message in messages %}
+                                    {% if category in ['invalid-email','email-exists'] %} 
+                                        <div class="flash-message {{ category }}" data-type="{{ category }}">
+                                            <p>{{ message }}</p>
+                                        </div>
+                        {% endif %}
+                    {% endfor %}
+                            </div>
+            {% endif %}
+          {% endwith %}
+                    <h3 class="password">Password</h3>
+                    <div class="password-container">
+                        <input type="password" name="password" placeholder="Enter your password" required id="password-id">
+                        <button type="button" id="toggle-password" class="toggle-password">
+                          <img src="{{ url_for('static', filename='images/icons8-hide-50.png') }}" alt="Toggle Password Visibility">
+                        </button>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button type="submit" class="signup-button">Sign Up</button>
+                </div>
+            </form>
+            <div class="login">
+                <p class="login-text">Already have an account? <a href="{{ url_for('login') }}" class="login-button login-account-link">Log in here ↗</a></p>
+            </div>
+            
+         </div>
+         
+    </div>
+</body>
+</html>
