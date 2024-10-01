@@ -217,39 +217,43 @@ addNoteForm.addEventListener('submit', (e) => {
         modalTitle.textContent = "Edit Note";
         submitButton.textContent = "Save Changes";
         noteFormModal.style.display = "block"; // Show the modal
-    }
-    function createNoteElement(note) {
+    }function createNoteElement(note) {
         const noteElement = document.createElement('div');
         noteElement.classList.add('input-box');
         noteElement.setAttribute('data-id', note.id);
         noteElement.setAttribute('data-timestamp', note.timestamp);
         noteElement.style.backgroundColor = note.color;
     
+        // Format date if needed
+        // Format timestamp to a readable date
+    
         noteElement.innerHTML = `
             <div class="note-title">${note.title}</div>
             <p class="note-description">${note.description}</p>
             <p class="note-category">${note.category}</p>
             <p class="note-date">${note.timestamp}</p>
-            
+    
             <div class="checkbox-icons-container">
-                <input type="checkbox" class="note-completed" ${note.completed ? 'checked' : ''} id="completed-checkbox-${note.id}">
+                <!-- Checkbox with proper label -->
+                <input type="checkbox" class="note-completed" id="completed-checkbox-${note.id}" ${note.completed ? 'checked' : ''}>
                 <label for="completed-checkbox-${note.id}">C</label> 
     
                 <div class="modify-buttons">
                     <button class="edit-button">
-                        <img src="/static/images/edit_button.png" alt="edit icon" class="edit">
-                        <div class="delete-name">Delete</div>
+                        <img src="/static/images/edit_button.png" alt="Edit icon" class="edit">
+                        <div class="edit-name">Edit</div>
                     </button>
                     <button class="delete-button">
-                        <img src="/static/images/delete_button.png" alt="delete icon" class="delete">
-                        <div class="edit-name">Edit</div>
+                        <img src="/static/images/delete_button.png" alt="Delete icon" class="delete">
+                        <div class="delete-name">Delete</div>
                     </button>
                 </div>
             </div>
         `;
     
-        notesContainer.appendChild(noteElement); // Ensure this is where notes are appended
+        notesContainer.appendChild(noteElement); // Append the newly created note element
     }
+    
         function updateNoteInDOM(updatedNote) {
         const inputBox = notesContainer.querySelector(`[data-id="${updatedNote.id}"]`);
         if (inputBox) {
