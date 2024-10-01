@@ -238,9 +238,11 @@ addNoteForm.addEventListener('submit', (e) => {
                 <div class="modify-buttons">
                     <button class="edit-button">
                         <img src="/static/images/edit_button.png" alt="edit icon" class="edit">
+                        <div class="delete-name">Delete</div>
                     </button>
                     <button class="delete-button">
                         <img src="/static/images/delete_button.png" alt="delete icon" class="delete">
+                        <div class="edit-name">Edit</div>
                     </button>
                 </div>
             </div>
