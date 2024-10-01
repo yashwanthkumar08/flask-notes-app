@@ -28,17 +28,123 @@
     width: 100%;
     min-height: 100vh;
     padding-top: 80px;
-    background: #303030;
+    background: #FAF9F7;
     background-size: 200% 200%; 
     animation: gradientAnimation 10s ease infinite; 
     padding-left: 20px;
     position: relative;
-    overflow: hidden;
+    overflow-y: auto;
     transition: background 0.8s;
 }
-#filter-controls h2{
-    color: red;
+
+
+.sidebar {
+    width: 250px; /* Adjust width as necessary */
+    background-color: #EFE7F4; /* Sidebar background color */
+    position: fixed; /* Keep it fixed */
+    left: -250px; /* Hide it off-screen initially */
+    top: 0px; /* Align to the top */
+    height: 100vh; /* Use max-height to limit the height */
+    overflow-y: auto; /* Add scrolling if content exceeds max-height */
+    transition: left 0.3s ease; /* Smooth transition */
+    z-index: 999; /* Ensure it's on top */
+    padding: 20px; /* Padding for aesthetics */
+    border-right: 1px solid #ccc; /* Border to separate from notes */
+    
+    flex-direction: column;
+    display: flex;
 }
+.sidebar .content {
+    display: flex;
+    flex-direction: column;
+     /* Center the content horizontally */
+    margin-top: 20px;
+}
+
+
+.logout {
+    display: flex; /* Enable flexbox */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically if needed */
+    top: 100px; /* Adjust to your layout */
+    margin: 0 auto; /* Center the container */
+    padding: 10px;
+    background-color: #303030;
+    margin-top: 100px;
+    border-radius: 10px;
+    
+}
+.logout-button{
+    color: white;
+    text-decoration: none;
+}
+
+
+.sidebar.active {
+    left: 0; /* Bring sidebar into view */
+    width: 230px; /* Adjust width as necessary */
+}
+
+#sidebar-toggle {
+    border: none;
+    /* width: 50px; */
+    background-color: white;
+    font-size:20px ;
+    border: none;
+    border-radius: 5px;
+    padding: 1px 3px;
+    cursor: pointer;
+    position: fixed; /* Position it fixed */
+    top: 10px; /* Adjust to your liking */
+    left: 15px; /* Adjust to your liking */
+    z-index: 1000; /* Ensure it's above other elements */
+}
+
+.header h2{
+    left: 100px;
+    position: relative;
+    font-size:large;
+    
+}
+   
+.welcome{
+    color: grey;
+    font-size: 20px;
+    position: relative;
+    display: flex;
+}
+.welcome-message{
+    position: relative;
+    left: 120px;
+}
+
+.categories li.active {
+    background-color:#303030; /* Change this to your preferred color */
+    color: white; /* Change text color for better visibility */
+}
+
+.categories {
+    list-style: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+    margin-top: 30px;
+}
+
+.categories li {
+    cursor: pointer; /* Show pointer on hover */
+    padding: 10px; /* Padding for clickable area */
+    transition: background-color 0.3s; /* Smooth hover effect */
+    font-size: medium;
+    display: flex;             /* Use flexbox for horizontal alignment */
+    margin-top: 30px;
+}
+.categories li img {
+    margin-right: 10px; 
+    width: 20px;/* Adds space between the image and the text */
+}
+.categories li:hover {
+    background-color: #ddd; /* Highlight on hover */
+}
+
 /* Keyframes for Background Animation */
 @keyframes gradientAnimation {
     0% {
@@ -58,36 +164,99 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: fixed;
+    position: absolute;
     min-height: 80px;
     top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 10; /* Bottom border for separation */
+    right: 0px;
+    width:100%;
+    z-index: 1; /* Bottom border for separation */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for header */
     transition: background 0.3s ease;
 }
+.sidebar .content{
+    padding-top: 50px;
+}
+.logo img{
+    width: 40px;
+}
+
+.right-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center elements horizontally */
+    justify-content: flex-start; /* Align items at the start */
+    width: 200px; /* Default width for desktop */
+    max-width: 90%; /* Max width to avoid covering the screen */
+    background-color: #FAF9F7;
+    position: absolute;
+    right: 25px; /* Fixed position from the right */
+    top: 90px; /* Position from the top */
+    height: auto; /* Auto height to accommodate content */
+    z-index: 999;
+    padding: 10px;
+    
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow */
+}
+.right-sidebar .controls-container{
+    display: flex;
+    gap: 10px;
+    position: relative;
+    
+}
+/* #filter-controls {
+    display: flex;
+    align-items: center; 
+    flex-direction: row;
+    background-color: #303030;
+    justify-content: center;
+    border-radius: 8px;
+    padding:5px;
+    margin-top: 15px;
+    height: 40px;
+} */
 
 /* Add Button */
-.header button {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    color: white;
-    font-weight: bold;
+.right-sidebar button {
+    /* Background image */
+    /* Replace with the actual path to your image */
+    background-size: contain; /* Scale image to fit within button */
+    background-position: center; /* Center image vertically and horizontally */
+    background-repeat: no-repeat; /* Prevent image repetition */
+    /* Button dimensions and styling */
+    width: 130px; /* Adjust width as needed */
+    height: 40px;
+    padding: 0; /* Remove default padding */
     border: none;
-    border-radius: 50%; /* Remove border */
-    font-size: 16px; /* Slightly larger font */
-    padding: 0; /* Remove padding */
-    box-shadow: none; /* Remove box shadow */
-    outline: none; /* Remove outline for focus state */
-    /* transition: background 0.3s, transform 0.2s; */
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #333;
+    color: white;
+    margin-top: 2px;
 }
 
-.header button img {
-    width: 40px;
-    /* margin-right: 10px; */
+.right-sidebar button:hover {
+   cursor: pointer;
 }
+/* #filter-controls h4{
+    position: relative;
+    top: 10px;
+    color: white;
+    font-size: small;
+}
+#filter-controls input[type="checkbox"] {
+    position: relative;
+    right:-110px;
+    top: 2px;
+
+  } */
+  #filter-controls input[type="checkbox"] {
+    position: relative;
+    top: 15px;
+
+
+  }
+ 
 
 .header button:hover {
     /* background: linear-gradient(135deg, grey, brown);  */
@@ -104,37 +273,24 @@
     right: 150px;
 }
 
-#filter-controls 
-#show-completed 
-{
-    position: absolute;
-    top: 100px; /* Adjusted for alignment */
-    right: 30px; /* Adjusted for alignment */
-    transform: scale(1.2); /* Optional: increase checkbox size */
-    margin: 0; /* Ensure no additional margin is applied */
-    cursor: pointer;
-    transform: scale(1.5);
-    padding: 200px;
-    z-index: 1; /* Bring the checkbox above any overlapping elements */
-}
-#filter-controls h3{
-    position: absolute; 
-    top: 95px;
-    color: white;
-    z-index: 2;
-    right: 60px
-}
 .notes {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive columns */
     gap: 20px;
-    margin-top: 50px;
+    margin-top: 90px;
     padding: 0 20px; /* Adjusted for better spacing */
     box-sizing: border-box;
     grid-auto-rows: auto; /* Allow rows to adjust based on content */
     transition: grid-template-columns 0.3s; /* Smooth transition for column adjustments */
+    position: absolute; /* Detach notes from sidebar */
+    left: 0; /* Position it to the right of the sidebar */
+    width: calc(100% ) /* Full width minus sidebar width */
 }
-
+.sidebar.active + .notes {
+    width: calc(100% - 250px);
+    margin-left: 250px; /* Adjust margin to match the width of the sidebar */
+    
+}
 /* Note Card */
 .input-box {
     display: flex;
@@ -146,7 +302,7 @@
     border: 3px solid black; /* Light border for better separation */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); 
     position: relative;
-    min-height: 230px; /* Minimum height for consistency */
+    min-height: 200px; /* Minimum height for consistency */
     width: 100%;
     box-sizing: border-box;
     overflow: hidden; /* Prevent content overflow */
@@ -167,7 +323,7 @@
     position: absolute;
     top:40px;
     font-size: 20px; /* Larger font size */
-    color: white;
+    color: rgb(92, 90, 90);
 }
 
 
@@ -184,46 +340,59 @@
     position: absolute;
     top: 70px;
     font-size: 14px; /* Adjusted font size */
-    color: white;
+    color: rgb(92, 90, 90);
 }
 
 /* Edit and Delete Icons */
-.delete-button,
-.edit-button {
-    width: 20px;
-    cursor: pointer;
-    top: 10px;
-    border-radius: 6px;
-    border: none;
-    padding: 3px 3px;
-    position: absolute;
-    transition: color 0.1s; /* Smooth transition for icon colors */
+.checkbox-icons-container {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Align items vertically */
+    justify-content: flex-start; /* Align items to the start */
+    margin-top: -5px; /* Adjust spacing above if necessary */
 }
 
-.edit-button .edit{
-    width: 15px;
+.note-completed {
+    margin-right: 8px; /* Space between checkbox and label */
 }
-.delete-button .delete{
-    width: 15px;
+
+.modify-buttons {
+    display: flex; /* Keep buttons in a row */
+    gap: 10px; /* Space between edit and delete buttons */
+    margin-left: auto; /* Push buttons to the right */
+    margin-right: -15px;
+    margin-top: -7px; /* Right margin for spacing */
 }
-.delete-button {
-    right: 10px;
-}
-.delete-button:hover{
-    transform: translateY(-5px); 
-    
-}
-.edit-button:hover{
-    transform: translateY(-5px); 
-}
+
+.delete-button,
 .edit-button {
-    right: 40px;
+    cursor: pointer; /* Change cursor on hover */
+    border: none; /* Remove border */
+    background: none; /* Remove background */
+    transition: transform 0.3s; /* Smooth transition for hover effect */
+    padding: 5px; /* Ensure padding around the button */
+    display: flex; /* Flex to center the image */
+    background-color: transparent;
+    border-radius: 10px;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
 }
 
 .delete-button:hover,
 .edit-button:hover {
-    color: #333; /* Change color on hover */
+    transform: scale(1.1); /* Slightly enlarge on hover */
 }
+
+.edit-button img,
+.delete-button img {
+    width: 20px; /* Set icon size */
+    height: 20px; /* Maintain aspect ratio */
+}
+.delete-button:hover,
+.edit-button:hover {
+    transform: translateY(-3px); /* Lift buttons on hover */
+}
+
+
 
 /* Modal Styles */
 .modal {
@@ -282,9 +451,7 @@
     width: 100%;
     box-sizing: border-box;
 }
-label[for="completed-checkbox"] {
-    color: #303030;
-}
+
 /* Close Button */
 .close {
     color: #999;
@@ -333,7 +500,7 @@ label[for="completed-checkbox"] {
     border: none;
     transform: translateX(-50%); /* Center horizontally */
     font-weight: bold;
-    color: white;
+    color: rgb(92, 90, 90);
     padding: 5px 10px;
 
 }
@@ -367,25 +534,40 @@ label[for="completed-checkbox"] {
 }
 .search-container {
     width: 100%;
-    max-width: 100px; /* Set a max width to keep it controlled */
+    max-width: 50vw; /* Set a max width to keep it controlled */
     margin: 0 auto; /* Center horizontally */
     position: absolute; /* Absolute positioning to avoid affecting the notes layout */
     top: 20px; /* Distance from top */
-    right: 10px;
-     /* Ensure centering */
-    display: flex; /* Flexbox to align items */
+    right:150px;
     justify-content: center; /* Keep it centered */
-}
 
+}
+.search-content{
+    display: flex;
+}
+.search-container img{
+    width: 20px; /* Adjust icon size as needed */
+    top: 12px;
+    right: -30px;
+    position: relative;
+    height: 20px;
+    z-index: 1000;
+}
+.combo{
+    justify-content: space-between;
+   
+    
+}
 #search-input {
     width: 100%; /* Full width inside the container */
     padding: 12px 15px; /* Increased padding for comfort */
-    border-radius: 20px; /* Rounded corners */
+    border-radius: 10px; /* Rounded corners */
     border: 1px solid #ccc; /* Light border */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     font-size: 16px; /* Font size */
     font-weight: bold; /* Bold text */
     transition: all 0.3s ease;
+    padding-left: 40px
 }
 #search-input:focus {
     border-color: #3498db; /* Change border color on focus */
@@ -394,103 +576,40 @@ label[for="completed-checkbox"] {
 }
 #search-input::placeholder {
     color: #999; /* Placeholder text color */
-    opacity: 1; /* Ensure visibility */
+    opacity: 1; 
+    ;/* Ensure visibility */
 }
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .container {
-        padding-left: 10px; /* Adjusted for smaller screens */
-        position: relative; /* Ensure relative positioning for absolute children */
-    }
-
-    .container button {
-        left: 10px; /* Adjusted position */
-        padding: 10px 15px;
-        font-size: 14px;
-    }
-
-    .notes {
-        grid-template-columns: 1fr;
-        padding: 0;
-        gap: 15px;
-    }
-
-    .input-box {
-        width: 90%; 
-        margin-bottom: 15px;
-        left: 0; /* Reset left position */
-        top: 0; /* Reset top position */
-    }
-
-    .modal-content {
-        width: 90%; /* Ensure it fits well on smaller screens */
-        max-width: 90%;
-    }
-
-    .search-container {
-        max-width: 300px;
-        
-    }
-
-    #search-input {
-        padding: 8px;
-        width: 20vw;
-        font-size: 14px; /* Adjust font size */
-    }
-
-   
-   
-    .date-display {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        width: 120px;
-        font-size: 14px; /* Smaller font size for small screens */
-        padding: 10px 16px; /* Adjusted padding for smaller screens */
-        border-radius: 6px; /* Slightly smaller border radius */
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Adjusted shadow */
-        background: linear-gradient(135deg, brown, grey); /* Match button style */
-        color: white;
-    }
-
-    .notes {
-        padding: 0 10px; /* Adjust padding for smaller screens */
-    }
-}
-@media (max-width: 480px) {
-    .search-container {
-        width: 70px; 
-        top: 10px;
-        /* right: 2px; */
-    }
-
-    #search-input {
-        padding: 10px;
-         /* Smaller width */
-         width: 200px;
-        position: absolute;
-        top: 10px;
-        right:10px;
-        font-weight: bold;
-        font-size: 12px; /* Smaller font size */
-        border-radius: 4px/* Further reduce font size */
-    }
-    
-    .date-display{
-        width:100px;
-        margin-right:-10px;
-        margin-top: -15px;
-    }
-    .container button{
-        margin-top: -10px;
-    }
-    .input-box{
-        margin-top: 10px;
-    }
-}
-
 
 .date-display:hover {
     background: linear-gradient(135deg, grey, brown); 
     transform: scale(1.05);
+}
+
+
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 180px; /* Smaller width for small screens */
+    }
+    
+    .sidebar.active {
+        left: 0;
+        width: 150px;
+    }
+    .sidebar.active + .notes {
+        width: calc(100% - 250px);
+        margin-left: 150px; /* Adjust margin to match the width of the sidebar */
+        
+    }
+    .welcome-message{
+        left: 50px;
+    }
+    #search-input{
+        margin-left: 200px;    
+        min-width: 150px;    
+    }
+    .search-container img{
+        right: -230px;
+    }
+        
 }
