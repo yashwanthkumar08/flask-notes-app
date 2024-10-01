@@ -7,7 +7,7 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, log
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import re
-from werkzeug.utils import url_decode
+
 
 
 app.secret_key = 'supersecretkey'
