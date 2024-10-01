@@ -1,4 +1,4 @@
-﻿asttokens==2.4.1
+asttokens==2.4.1
 attrs==24.2.0
 backcall==0.2.0
 beautifulsoup4==4.12.3
@@ -14,11 +14,11 @@ defusedxml==0.7.1
 docopt==0.6.2
 executing==2.1.0
 fastjsonschema==2.20.0
-Flask==3.0.3
+Flask==2.2.5                # Downgraded to match Werkzeug
 Flask-SQLAlchemy==3.1.1
-Flask-Migrate==4.0.4       # For database migrations
+Flask-Migrate==4.0.4 
 Flask-Login==0.6.2          # For user authentication
-Werkzeug>=2.3 
+Werkzeug==2.2.3             # Fixed version of Werkzeug
 greenlet==3.1.0
 idna==3.10
 ipython==8.12.3
