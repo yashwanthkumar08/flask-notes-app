@@ -1,0 +1,115 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+}
+
+/* Container styles */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Right column styles */
+.right {
+    width: 300px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    position: relative;
+    top: -40px;
+}
+
+/* Input field styles */
+.input input {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    top: -10px;
+    position: relative;
+    border-radius: 3px;
+    background-color: #fff; /* Ensure background is always white */
+}
+
+/* Error state styles */
+.input input.invalid-email {
+    border: 1px solid red;
+    background-color: #fff; /* Keep background white even in error state */
+}
+
+/* Button styles */
+.button-container button {
+    width: 98%;
+    padding: 10px;
+    background-color: #3E38F4;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* Signup button styles */
+.signup-button {
+    color: #fff; /* Button text color */
+}
+
+/* Flash message styles */
+.flash-messages {
+    font-size: small;
+    margin-top: -10px; /* Adjust margin to bring the message closer to the input field */
+    width: 80%; /* Match the width of the input field */
+    color: darkred; /* Message color */
+    position: relative;
+    top: -20px; /* Align with the input field */
+}
+
+/* Link styles */
+.login-button {
+    color: #3E38F4;
+    text-decoration: none;
+}
+
+/* Signup text styles */
+.signup {
+    width: 100%; /* Ensure the container spans full width */
+    text-align: center; /* Center the text horizontally */
+    margin-top: 20px; 
+    font-size: small; /* Optional: Adds space between form and signup section */
+}
+
+/* Ensure bolding for important text */
+.signup p {
+    font-weight: bold;
+}
+.right h4{
+    font-weight: 600;
+    font-size: small;
+    top: -10px;
+    position: relative;
+}
+.right .email,.password,.username{
+    font-size: small;
+    font-weight:700;
+  }
+  .login-text {
+    text-align: center; /* Center the content within the p element */
+    font-size: small;
+  }
+  .login-account-link{
+    font-weight: 600;
+  }
+  .toggle-password{
+    background-color: transparent;
+    border: none;
+    position: relative;
+    top: -40px;
+    right:-250px;
+  }
+  .toggle-password:hover{
+    cursor: pointer;
+  }
+  .toggle-password img{
+    width: 20px;
+  }
