@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("search-input");
     const showCompletedCheckbox = document.getElementById("show-completed");
     const notesContainer = document.querySelector(".notes");
-    const colors = ['#CEDBFB', '#F8E6D0', '#F8E0F0', '#D2F0F8', '#cc5dbc', '#d49d29'];
+    const colors =  ['#F8E0F0'];
     let editingNoteId = null; // Variable to track the note being edited
     const categoryItems = document.querySelectorAll('.categories li');
     const sidebar = document.querySelector('.sidebar');
@@ -258,9 +258,11 @@ addNoteForm.addEventListener('submit', (e) => {
             <input type="checkbox" class="note-completed" ${updatedNote.completed ? 'checked' : ''} />
             <button class="delete-button">
               <img src="/static/images/delete_button.png" alt="delete icon" class="delete">
+              <div class="delete-name">Delete</div>
             </button>
             <button class="edit-button">
               <img src="/static/images/edit_button.png" alt="edit icon" class="edit">
+              <div class="edit-name">Edit</div>
             </button>
           `;
         }
